@@ -1,0 +1,22 @@
+---
+  NovaScheduler.boot_server:
+    -
+      args:
+        flavor:
+            name: "m1.tiny"
+        image:
+            name: "cirros-0.3.4-x86_64-uec"
+        filter: "same_host"
+      runner:
+        type: "serial"
+        times: 2
+        concurrency: 1
+      context:
+        users:
+          tenants: 1
+          users_per_tenant: 1
+      sla:
+        boot_failure:
+          max: 0
+        hypervisors_usage:
+          std_free_vcpus: 40.0

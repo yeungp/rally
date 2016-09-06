@@ -1,0 +1,36 @@
+---
+  NovaServers.boot_server:
+    -
+      args:
+        flavor:
+          name: "rally-vcpu"
+        image:
+          name: "cirros-0.3.4-x86_64-uec"
+      runner:
+        type: "serial"
+        times: 1
+        concurrency: 1
+      context:
+        users:
+          tenants: 1
+          users_per_tenant: 1
+        flavors:
+          -
+            name: "rally-vcpu"
+            vcpus: 1
+            ram: 512
+            disk: 1
+            ephemeral: 0
+            extra_specs:
+              rally: "True"
+        quotas:
+          nova:
+              cores: 10
+        aggregates:
+          match_host:
+            - kilo
+          metadata:
+            - rally: "True"
+      sla:
+        hypervisors_usage:
+          std_free_vcpus: 5.0

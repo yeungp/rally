@@ -1,0 +1,31 @@
+---
+  NovaScheduler.boot_server:
+    -
+      args:
+        flavor:
+          name: "m1.tiny"
+        image:
+          name: "cirros-0.3.4-x86_64-uec"
+        group: "rally-anti-group"
+      runner:
+        type: "serial"
+        times: 2
+        concurrency: 1
+      context:
+        users:
+          tenants: 1
+          users_per_tenant: 1
+        server_groups:
+          -
+            name: "rally-aff-group"
+            policies:
+              - "affinity"
+          -
+            name: "rally-anti-group"
+            policies:
+              - "anti-affinity"
+      sla:
+        boot_failure:
+          max: 0
+        hypervisors_usage:
+          std_free_vcpus: 5.0
